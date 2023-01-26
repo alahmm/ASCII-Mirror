@@ -16,17 +16,60 @@ public class Main {
                 list2.set(0, s);
             }
         }
-        for (String variable : list1
+        for (int i = 0; i < list1.size(); i++
         ) {
-            if (variable.length() != longestString.length()) {
-                String padded = String.format("%-" + longestString.length() + "s", variable);
-                System.out.println(padded + " | " + padded);
+            if (list1.get(i).length() != longestString.length() && ConverterOfString(list1).get(i).length() != longestString.length()) {
+                String padded = String.format("%-" + longestString.length() + "s", list1.get(i));
+                String padded2 = String.format("%" + longestString.length() + "s", ConverterOfString(list1).get(i));
+                System.out.println(padded + " | " + padded2);
             } else {
-                System.out.println(variable + " | " + variable);
-
+                System.out.println(list1.get(i) + " | " + ConverterOfString(list1).get(i));
             }
         }
     }
+    public static char[] ConverterOfChar(char[] listOfChar) {
+        for (int i = 0; i < listOfChar.length; i++) {
+            if (listOfChar[i] == '<') {
+                listOfChar[i] = '>';
+            } else if (listOfChar[i] == '>') {
+                listOfChar[i] = '<';
+            } else if (listOfChar[i] == '[') {
+                listOfChar[i] = ']';
+            } else if (listOfChar[i] == ']') {
+                listOfChar[i] = '[';
+            } else if (listOfChar[i] == '{') {
+                listOfChar[i] = '}';
+            } else if (listOfChar[i] == '}') {
+                listOfChar[i] = '{';
+            } else if (listOfChar[i] == '(') {
+                listOfChar[i] = ')';
+            } else if (listOfChar[i] == ')') {
+                listOfChar[i] = '(';
+            } else if (listOfChar[i] == '/') {
+                listOfChar[i] = '\\';
+            } else if (listOfChar[i] == '\\') {
+                listOfChar[i] = '/';
+            }
+        }
+        return listOfChar;
+    }
+    public static List<String> ConverterOfString(List<String> list1) {
+        List<String> list = new ArrayList<>();
+        for (String variable : list1
+             ) {
+            char[] listOfChar = variable.toCharArray();
+            List<Character> arrayList = new ArrayList<>();
+            for (int i = 0; i < listOfChar.length; i++) {
+                arrayList.add(listOfChar[listOfChar.length - 1 - i]);
+            }
+            for (int i = 0; i < listOfChar.length; i++) {
+                listOfChar[i] = arrayList.get(i);
+            }
+            list.add(String.valueOf(ConverterOfChar(listOfChar)));
+        }
+        return list;
+
+        }
     public static void Reader(String path1) throws FileNotFoundException {
         List<String> list1 = new ArrayList<>();
         File file = new File(path1);
@@ -35,6 +78,7 @@ public class Main {
             String input2 = scannerReader.nextLine();
             list1.add(input2);
         }
+        ConverterOfString(list1);
         Printer(list1);
     }
     public static void main(String[] args) throws FileNotFoundException {
